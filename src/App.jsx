@@ -1,9 +1,25 @@
-import React from 'react'
+import React from "react";
+import Navbar from "./Components/Navbar";
+import { Route, Routes } from "react-router-dom";
+import HomePage from "./Pages/HomePage";
+import FvtPage from "./Pages/FvtPage";
+import CategoriesPage from "./Pages/CategoriesPage";
+import AboutPage from "./Pages/AboutPage";
+import ContactPage from "./Pages/ContactPage";
 
 const App = () => {
   return (
-    <div>App</div>
-  )
-}
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/categories" element={<CategoriesPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/favourites" element={<FvtPage />} />
+      </Routes>
+    </>
+  );
+};
 
-export default App
+export default App;
