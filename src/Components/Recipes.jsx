@@ -19,7 +19,7 @@ const Recipes = () => {
     );
   }
 
-  const recipesWithPrices = recipes.map((recipe) => ({
+  const recipesWithPrices = recipes.slice(0, 9).map((recipe) => ({
     ...recipe,
     price: Math.floor(Math.random() * 20) + 10,
   }));

@@ -8,21 +8,25 @@ import ContactPage from "./Pages/ContactPage";
 import CartPage from "./Pages/CartPage";
 import LoginPage from "./Pages/LoginPage";
 import FoodsPage from "./Pages/Foods";
+import Footer from "./Components/Footer";
 
 const App = () => {
   return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/categories" element={<FoodsPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/favourites" element={<FvtPage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/login" element={<LoginPage />} />
-      </Routes>
-    </>
+    <div className="min-h-screen flex flex-col">
+      <Navbar className="flex-shrink-0" />
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/categories" element={<FoodsPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/favourites" element={<FvtPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/login" element={<LoginPage />} />
+        </Routes>
+      </main>
+      <Footer className="flex-shrink-0" />
+    </div>
   );
 };
 
