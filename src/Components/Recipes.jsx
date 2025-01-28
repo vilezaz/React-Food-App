@@ -50,7 +50,7 @@ const Recipes = () => {
                 <h4 className="text-2xl font-bold text-gray-800 mb-2 line-clamp-1">
                   {recipe.strMeal}
                 </h4>
-                <p className="text-3xl font-bold text-[#ed3f36]">${recipe.price}</p>
+                <p className="text-2xl font-bold text-[#ed3f36]">${recipe.price}</p>
               </div>
 
               <div className="flex gap-3">

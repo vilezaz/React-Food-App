@@ -4,7 +4,7 @@ import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 const HomeIntro = () => {
   return (
-    <div className="mx-auto py-12 flex flex-col md:flex-row items-center justify-between gap-8">
+    <div className="mx-auto pb-12 pt-32 flex flex-col md:flex-row items-center justify-between gap-8">
       <div className="w-3/5">
         <h2 className="text-5xl font-bold text-[#ed3f36] mb-4 leading-snug">
           Delicious Food <span className='text-zinc-700'>Delivered <br /> to</span> Your Door

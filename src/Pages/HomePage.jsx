@@ -4,7 +4,7 @@ import Recipes from '../Components/Recipes'
 
 const HomePage = () => {
   return (
-    <div>
+    <div className='md:px-28'>
       <HomeIntro />
       <Recipes />
     </div>

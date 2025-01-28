@@ -39,7 +39,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="py-8 flex justify-between items-center">
+    <nav className="py-8 flex bg-white justify-between items-center fixed w-full md:px-28 z-50">
       <b className="font-bold text-2xl">Food App</b>
       <div className="flex px-2">
         <ul className="flex items-center space-x-10 text-lg">

@@ -11,7 +11,7 @@ import FoodsPage from "./Pages/Foods";
 
 const App = () => {
   return (
-    <div className="md:w-[85%] mx-auto">
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
@@ -22,7 +22,7 @@ const App = () => {
         <Route path="/cart" element={<CartPage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
-    </div>
+    </>
   );
 };
 
