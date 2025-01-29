@@ -18,6 +18,7 @@ const Categories = () => {
   } = useSelector((state) => state.categories);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [visibleRecipes, setVisibleRecipes] = useState(9);
   const itemsPerPage = 5;
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -25,15 +26,19 @@ const Categories = () => {
   const currentCategories = categories.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(categories.length / itemsPerPage);
 
+  const loadMoreRecipes = () => {
+    setVisibleRecipes((prev) => prev + 9);
+  };
+
   useEffect(() => {
     dispatch(loadCategories());
   }, [dispatch]);
 
   useEffect(() => {
-    if (categories.length > 0 && !currentCategory) {
+    if (!categoriesLoading && categories.length > 0 && !currentCategory) {
       setCurrentCategory(categories[0].strCategory);
     }
-  }, [categories]);
+  }, [categories, categoriesLoading]);  
 
   useEffect(() => {
     if (currentCategory) {
@@ -41,16 +46,17 @@ const Categories = () => {
     }
   }, [currentCategory]);
 
-  if (categoriesLoading) {
-    return (
-      <div className="text-center h-[60vh] py-16 text-2xl text-[#ed3f36] animate-pulse">
-        Loading categories...
-      </div>
-    );
-  }
+  useEffect(() => {
+    setVisibleRecipes(9);
+  }, [currentCategory]);
 
   return (
-    <div>
+    categoriesLoading ? (
+      <div className="text-center h-[60vh] pb-16 pt-28 text-2xl text-[#ed3f36] animate-pulse">
+        Loading...
+      </div>
+    ) : (
+      <div className="px-28">
       <div>
         <div className="pt-32 flex flex-wrap justify-center gap-4 px-28">
           {currentCategories.map((category, index) => (
@@ -87,12 +93,12 @@ const Categories = () => {
 
       <div className="px-4 py-8">
         {foodsLoading ? (
-          <div className="text-center py-16 text-2xl text-[#ed3f36] animate-pulse">
+          <div className="text-center pb-16 pt-10 h-[40vh] text-2xl text-[#ed3f36] animate-pulse">
             Loading meals...
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {currentCategoryFoods.map((recipe) => (
+            {currentCategoryFoods.slice(0, visibleRecipes).map((recipe) => (
               <div
                 key={recipe.idMeal}
                 className="group bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
@@ -112,7 +118,7 @@ const Categories = () => {
                       {recipe.strMeal}
                     </h4>
                     <p className="text-2xl font-bold text-[#ed3f36]">
-                    ${recipe.price}
+                      ${recipe.price}
                     </p>
                   </div>
 
@@ -140,7 +146,18 @@ const Categories = () => {
           </div>
         )}
       </div>
+      {!foodsLoading && visibleRecipes < currentCategoryFoods.length && (
+        <div className="text-center mt-6 mb-10">
+          <button
+            onClick={loadMoreRecipes}
+            className="px-6 py-3 cursor-pointer bg-[#ed3f36] text-white rounded-lg hover:bg-[#d6372f] transition-all duration-300"
+          >
+            Load More
+          </button>
+        </div>
+      )}
     </div>
+    )
   );
 };
 
