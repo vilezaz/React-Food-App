@@ -4,7 +4,8 @@ import axios from "axios";
 const initialState = {
   categories: [],
   currentCategoryFoods: [],
-  loading: false,
+  categoriesLoading: false,
+  foodsLoading: false,
   error: null,
 };
 
@@ -30,7 +31,10 @@ export const loadCategoriesFoods = createAsyncThunk(
         `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
       );
       console.log(response);
-      return response.data.meals;
+      return response.data.meals.map((meal) => ({
+        ...meal,
+        price: (Math.random() * 20 + 5).toFixed(2),
+      }));
     } catch (error) {
       return error;
     }
@@ -43,25 +47,25 @@ const categoriesReducer = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loadCategories.pending, (state) => {
-        state.loading = true;
+        state.categoriesLoading = true;
       })
       .addCase(loadCategories.fulfilled, (state, action) => {
         state.categories = action.payload;
-        state.loading = false;
+        state.categoriesLoading = false;
       })
       .addCase(loadCategories.rejected, (state, action) => {
-        state.loading = false;
+        state.categoriesLoading = false;
         state.error = action.payload;
       })
       .addCase(loadCategoriesFoods.pending, (state) => {
-        state.loading = true;
+        state.foodsLoading = true;
       })
       .addCase(loadCategoriesFoods.fulfilled, (state, action) => {
         state.currentCategoryFoods = action.payload;
-        state.loading = false;
+        state.foodsLoading = false;
       })
       .addCase(loadCategoriesFoods.rejected, (state, action) => {
-        state.loading = false;
+        state.foodsLoading = false;
         state.error = action.payload;
       });
   },

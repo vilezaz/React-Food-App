@@ -19,11 +19,6 @@ const Recipes = () => {
     );
   }
 
-  const recipesWithPrices = recipes.slice(0, 9).map((recipe) => ({
-    ...recipe,
-    price: Math.floor(Math.random() * 20) + 10,
-  }));
-
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
       <h3 className="text-4xl font-bold text-[#ed3f36] text-center mb-16">
@@ -31,7 +26,7 @@ const Recipes = () => {
       </h3>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {recipesWithPrices.map((recipe) => (
+        {recipes.slice(0, 9).map((recipe) => (
           <div
             key={recipe.idMeal}
             className="group bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"

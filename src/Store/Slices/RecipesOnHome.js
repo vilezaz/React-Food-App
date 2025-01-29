@@ -15,7 +15,10 @@ export const loadRecipes = createAsyncThunk(
         "https://www.themealdb.com/api/json/v1/1/search.php?s=a"
       );
       console.log(response);
-      return response.data.meals;
+      return response.data.meals.map((meal) => ({
+        ...meal,
+        price: (Math.random() * 20 + 5).toFixed(2),
+      }));
     } catch (error) {
       return error;
     }
