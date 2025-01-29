@@ -16,7 +16,7 @@ export const loadCategories = createAsyncThunk(
       const response = await axios.get(
         "https://www.themealdb.com/api/json/v1/1/categories.php"
       );
-      console.log(response);
+      // console.log(response);
       return response.data.categories;
     } catch (error) {
       return error;
@@ -30,7 +30,7 @@ export const loadCategoriesFoods = createAsyncThunk(
       const response = await axios.get(
         `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
       );
-      console.log(response);
+      // console.log(response);
       return response.data.meals.map((meal) => ({
         ...meal,
         price: (Math.random() * 20 + 5).toFixed(2),

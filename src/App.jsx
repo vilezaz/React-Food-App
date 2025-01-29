@@ -9,10 +9,12 @@ import CartPage from "./Pages/CartPage";
 import LoginPage from "./Pages/LoginPage";
 import Footer from "./Components/Footer";
 import FoodsPage from "./Pages/FoodsPage";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
     <div className="min-h-screen flex flex-col">
+      <Toaster />
       <Navbar className="flex-shrink-0" />
       <main className="flex-grow">
         <Routes>

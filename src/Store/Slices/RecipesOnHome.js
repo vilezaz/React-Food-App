@@ -14,7 +14,7 @@ export const loadRecipes = createAsyncThunk(
       const response = await axios.get(
         "https://www.themealdb.com/api/json/v1/1/search.php?s=a"
       );
-      console.log(response);
+      // console.log(response);
       return response.data.meals.map((meal) => ({
         ...meal,
         price: (Math.random() * 20 + 5).toFixed(2),

@@ -2,10 +2,21 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loadRecipes } from "../Store/Slices/RecipesOnHome";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import toast from "react-hot-toast";
+import { addToFavourites } from "../Store/Slices/Favourites";
 
 const Recipes = () => {
   const dispatch = useDispatch();
   const { loading, recipes, error } = useSelector((state) => state.homeRecipes);
+  const { favourites } = useSelector((state) => state.favourites);
+
+  const handleAddToFavourites = (recipe) => {
+    const isPresent = favourites.some((fav) => fav.idMeal === recipe.idMeal);
+    if (!isPresent) {
+      dispatch(addToFavourites(recipe));
+      toast.success("Recipe added to favourites!");
+    }
+  };
 
   useEffect(() => {
     dispatch(loadRecipes());
@@ -63,6 +74,7 @@ const Recipes = () => {
                 </button>
 
                 <button
+                  onClick={() => handleAddToFavourites(recipe)}
                   className="flex items-center justify-center gap-2 border-2 border-[#ed3f36] text-[#ed3f36] 
                             py-2 px-4 cursor-pointer rounded-xl hover:bg-[#ed3f36] hover:text-white transition-all 
                             duration-200 font-semibold flex-1"
