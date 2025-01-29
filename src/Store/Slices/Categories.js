@@ -1,0 +1,70 @@
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+const initialState = {
+  categories: [],
+  currentCategoryFoods: [],
+  loading: false,
+  error: null,
+};
+
+export const loadCategories = createAsyncThunk(
+  "categories/loadCategories",
+  async () => {
+    try {
+      const response = await axios.get(
+        "https://www.themealdb.com/api/json/v1/1/categories.php"
+      );
+      console.log(response);
+      return response.data.categories;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
+export const loadCategoriesFoods = createAsyncThunk(
+  "categories/loadCategoriesFoods", async (category) => {
+    try {
+      const response = await axios.get(
+        `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
+      );
+      console.log(response);
+      return response.data.meals;
+    } catch (error) {
+      return error;
+    }
+  })
+
+const categoriesReducer = createSlice({
+  name: "categories",
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(loadCategories.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(loadCategories.fulfilled, (state, action) => {
+        state.categories = action.payload;
+        state.loading = false;
+      })
+      .addCase(loadCategories.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+      .addCase(loadCategoriesFoods.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(loadCategoriesFoods.fulfilled, (state, action) => {
+        state.currentCategoryFoods = action.payload;
+        state.loading = false;
+      })
+      .addCase(loadCategoriesFoods.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
+});
+
+export default categoriesReducer.reducer;

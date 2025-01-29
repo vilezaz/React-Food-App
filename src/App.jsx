@@ -7,8 +7,8 @@ import AboutPage from "./Pages/AboutPage";
 import ContactPage from "./Pages/ContactPage";
 import CartPage from "./Pages/CartPage";
 import LoginPage from "./Pages/LoginPage";
-import FoodsPage from "./Pages/Foods";
 import Footer from "./Components/Footer";
+import FoodsPage from "./Pages/FoodsPage";
 
 const App = () => {
   return (
@@ -17,7 +17,7 @@ const App = () => {
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/categories" element={<FoodsPage />} />
+          <Route path="/foods" element={<FoodsPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/favourites" element={<FvtPage />} />
