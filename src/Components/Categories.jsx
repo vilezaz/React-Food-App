@@ -162,11 +162,11 @@ const Categories = () => {
                     <button
                       onClick={() => handleFvtBtnClick(recipe)}
                       className={`flex items-center justify-center gap-2 border-2
-                                              py-2 px-4 cursor-pointer rounded-xl text-white hover:text-white transition-all 
+                                              py-2 px-4 cursor-pointer rounded-xl transition-all 
                                               duration-200 font-semibold flex-1 ${
                                                 alreadyInFavourites(recipe)
-                                                  ? "bg-green-500 hover:bg-green-600"
-                                                  : "bg-[#ed3f36] text-[#ed3f36]  hover:bg-[#d6372f]"
+                                                  ? "bg-green-500 hover:bg-green-600 text-white hover:text-white"
+                                                  : "border-2 border-[#ed3f36] text-[#ed3f36] hover:bg-orange-50"
                                               }`}>
                       <FaHeart className="text-lg" />
                       {alreadyInFavourites(recipe) ? "Loved" : "Love It"}

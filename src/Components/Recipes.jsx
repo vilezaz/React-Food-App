@@ -4,11 +4,13 @@ import { loadRecipes } from "../Store/Slices/RecipesOnHome";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { addToFavourites, removeFromFavourites } from "../Store/Slices/Favourites";
+import { addToCart } from "../Store/Slices/Cart";
 
 const Recipes = () => {
   const dispatch = useDispatch();
   const { loading, recipes, error } = useSelector((state) => state.homeRecipes);
   const { favourites } = useSelector((state) => state.favourites);
+  const { cart } = useSelector((state) => state.cart);
 
   const handleFvtBtnClick = (recipe) => {
     if (alreadyInFavourites(recipe)) {
@@ -37,6 +39,11 @@ const Recipes = () => {
   const alreadyInFavourites = (recipe) => {
     return favourites.some((fav) => fav.idMeal === recipe.idMeal);
   };
+
+  const handleAddToCart = (recipe) => {
+    dispatch(addToCart(recipe));
+    toast.success("Recipe added to cart!");
+  }
 
   useEffect(() => {
     dispatch(loadRecipes());
@@ -84,7 +91,7 @@ const Recipes = () => {
               </div>
 
               <div className="flex gap-3">
-                <button
+                <button onClick={() => handleAddToCart(recipe)}
                   className={`flex items-center justify-center gap-2 text-white py-2 px-4 cursor-pointer rounded-xl transition-all duration-200 font-semibold flex-1 bg-[#ed3f36] hover:bg-[#d6372f]`}>
                   <FaShoppingCart className="text-lg" />
                   Add
@@ -93,11 +100,11 @@ const Recipes = () => {
                 <button
                   onClick={() => handleFvtBtnClick(recipe)}
                   className={`flex items-center justify-center gap-2 border-2
-                            py-2 px-4 cursor-pointer rounded-xl text-white hover:text-white transition-all 
+                            py-2 px-4 cursor-pointer rounded-xl transition-all 
                             duration-200 font-semibold flex-1 ${
                               alreadyInFavourites(recipe)
-                                ? "bg-green-500 hover:bg-green-600"
-                                : "bg-[#ed3f36] text-[#ed3f36]  hover:bg-[#d6372f]"
+                                ? "bg-green-500 hover:bg-green-600 text-white hover:text-white"
+                                : "border-2 border-[#ed3f36] text-[#ed3f36] hover:bg-orange-50"
                             }`}>
                   <FaHeart className="text-lg" />
                   {alreadyInFavourites(recipe)? "Loved" : "Love It"}
