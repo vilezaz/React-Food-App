@@ -16,7 +16,7 @@ const favouritesReducer = createSlice({
       },
     removeFromFavourites: (state, action) => {
       state.favourites = state.favourites.filter(
-        (recipe) => recipe.id !== action.payload
+        (recipe) => recipe.idMeal !== action.payload.idMeal
       );
     },
   },

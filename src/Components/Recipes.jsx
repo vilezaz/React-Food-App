@@ -3,12 +3,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadRecipes } from "../Store/Slices/RecipesOnHome";
 import { FaHeart, FaShoppingCart } from "react-icons/fa";
 import toast from "react-hot-toast";
-import { addToFavourites } from "../Store/Slices/Favourites";
+import { addToFavourites, removeFromFavourites } from "../Store/Slices/Favourites";
 
 const Recipes = () => {
   const dispatch = useDispatch();
   const { loading, recipes, error } = useSelector((state) => state.homeRecipes);
   const { favourites } = useSelector((state) => state.favourites);
+
+  const handleFvtBtnClick = (recipe) => {
+    if (alreadyInFavourites(recipe)) {
+      handleRemoveFromFavourites(recipe);
+      return;
+    }
+    handleAddToFavourites(recipe);
+  }
 
   const handleAddToFavourites = (recipe) => {
     const isPresent = favourites.some((fav) => fav.idMeal === recipe.idMeal);
@@ -16,6 +24,18 @@ const Recipes = () => {
       dispatch(addToFavourites(recipe));
       toast.success("Recipe added to favourites!");
     }
+  };
+
+  const handleRemoveFromFavourites = (recipe) => {
+    const isPresent = favourites.some((fav) => fav.idMeal === recipe.idMeal);
+    if (isPresent) {
+      dispatch(removeFromFavourites(recipe));
+      toast.error("Recipe removed from favourites!");
+    }
+  }
+
+  const alreadyInFavourites = (recipe) => {
+    return favourites.some((fav) => fav.idMeal === recipe.idMeal);
   };
 
   useEffect(() => {
@@ -40,13 +60,12 @@ const Recipes = () => {
         {recipes.slice(0, 9).map((recipe) => (
           <div
             key={recipe.idMeal}
-            className="group bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden"
-          >
+            className="group bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 overflow-hidden">
             <div className="relative overflow-hidden">
               <img
                 src={recipe.strMealThumb}
                 alt={recipe.strMeal}
-                className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-300"
+                className="w-full h-60 object-cover transform group-hover:scale-105 transition-transform duration-300"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
               <span className="absolute top-4 left-4 bg-white/90 text-[#ed3f36] px-3 py-1 rounded-full text-sm font-medium">
@@ -66,21 +85,22 @@ const Recipes = () => {
 
               <div className="flex gap-3">
                 <button
-                  className="flex items-center justify-center gap-2 bg-[#ed3f36] text-white py-2 px-4 cursor-pointer rounded-xl 
-                            hover:bg-[#d6372f] transition-all duration-200 font-semibold flex-1"
-                >
+                  className={`flex items-center justify-center gap-2 text-white py-2 px-4 cursor-pointer rounded-xl transition-all duration-200 font-semibold flex-1 bg-[#ed3f36] hover:bg-[#d6372f]`}>
                   <FaShoppingCart className="text-lg" />
                   Add
                 </button>
 
                 <button
-                  onClick={() => handleAddToFavourites(recipe)}
-                  className="flex items-center justify-center gap-2 border-2 border-[#ed3f36] text-[#ed3f36] 
-                            py-2 px-4 cursor-pointer rounded-xl hover:bg-[#ed3f36] hover:text-white transition-all 
-                            duration-200 font-semibold flex-1"
-                >
+                  onClick={() => handleFvtBtnClick(recipe)}
+                  className={`flex items-center justify-center gap-2 border-2
+                            py-2 px-4 cursor-pointer rounded-xl text-white hover:text-white transition-all 
+                            duration-200 font-semibold flex-1 ${
+                              alreadyInFavourites(recipe)
+                                ? "bg-green-500 hover:bg-green-600"
+                                : "bg-[#ed3f36] text-[#ed3f36]  hover:bg-[#d6372f]"
+                            }`}>
                   <FaHeart className="text-lg" />
-                  Favorite
+                  {alreadyInFavourites(recipe)? "Loved" : "Love It"}
                 </button>
               </div>
             </div>

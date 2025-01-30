@@ -3,8 +3,11 @@ import { NavLink } from "react-router-dom";
 import { FiHeart } from "react-icons/fi";
 import { LuShoppingCart } from "react-icons/lu";
 import { LuUserRoundPlus } from "react-icons/lu";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const { favourites } = useSelector((state) => state.favourites);
+
   const textLinks = [
     {
       name: "Home",
@@ -64,7 +67,8 @@ const Navbar = () => {
       <div className="flex space-x-7">
         {iconsLinks.map((iconLink, index) => {
           return (
-            <NavLink key={index}
+            <NavLink
+              key={index}
               to={iconLink.path}
               className={({ isActive }) =>
                 isActive
@@ -72,7 +76,17 @@ const Navbar = () => {
                   : "hover:text-[#ed3f36] transition-colors"
               }
             >
-              {iconLink.name}
+              {iconLink.path === "/favourites" ? (
+                <div className="flex relative">
+                  <FiHeart className="text-xl" />
+                  <sup
+                    className="inline-flex items-center justify-center absolute -top-2 -right-3 w-4 h-4 rounded-full  bg-red-500  text-white text-xs font-mediu shadow-sm">
+                    {favourites.length}
+                  </sup>
+                </div>
+              ) : (
+                iconLink.name
+              )}
             </NavLink>
           );
         })}

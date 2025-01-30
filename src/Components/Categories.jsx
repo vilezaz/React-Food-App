@@ -107,7 +107,7 @@ const Categories = () => {
                   <img
                     src={recipe.strMealThumb}
                     alt={recipe.strMeal}
-                    className="w-full h-64 object-cover transform group-hover:scale-105 transition-transform duration-300"
+                    className="w-full h-60 object-cover transform group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 </div>
