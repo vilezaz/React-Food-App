@@ -11,34 +11,38 @@ const initialState = {
 
 export const loadCategories = createAsyncThunk(
   "categories/loadCategories",
-  async () => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await axios.get(
         "https://www.themealdb.com/api/json/v1/1/categories.php"
       );
-      // console.log(response);
-      return response.data.categories;
+
+      return response.data.categories || [];
     } catch (error) {
-      return error;
+      return rejectWithValue(error.message || "Failed to load categories");
     }
   }
 );
 
 export const loadCategoriesFoods = createAsyncThunk(
-  "categories/loadCategoriesFoods", async (category) => {
+  "categories/loadCategoriesFoods",
+  async (category, { rejectWithValue }) => {
     try {
       const response = await axios.get(
         `https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`
       );
-      // console.log(response);
+
+      if (!response.data.meals) return [];
+
       return response.data.meals.map((meal) => ({
         ...meal,
         price: (Math.random() * 20 + 5).toFixed(2),
       }));
     } catch (error) {
-      return error;
+      return rejectWithValue(error.message || "Failed to load category foods");
     }
-  })
+  }
+);
 
 const categoriesReducer = createSlice({
   name: "categories",
@@ -48,6 +52,7 @@ const categoriesReducer = createSlice({
     builder
       .addCase(loadCategories.pending, (state) => {
         state.categoriesLoading = true;
+        state.error = null;
       })
       .addCase(loadCategories.fulfilled, (state, action) => {
         state.categories = action.payload;
@@ -55,10 +60,11 @@ const categoriesReducer = createSlice({
       })
       .addCase(loadCategories.rejected, (state, action) => {
         state.categoriesLoading = false;
-        state.error = action.payload;
+        state.error = action.payload || "Failed to load categories";
       })
       .addCase(loadCategoriesFoods.pending, (state) => {
         state.foodsLoading = true;
+        state.error = null;
       })
       .addCase(loadCategoriesFoods.fulfilled, (state, action) => {
         state.currentCategoryFoods = action.payload;
@@ -66,7 +72,7 @@ const categoriesReducer = createSlice({
       })
       .addCase(loadCategoriesFoods.rejected, (state, action) => {
         state.foodsLoading = false;
-        state.error = action.payload;
+        state.error = action.payload || "Failed to load category foods";
       });
   },
 });

@@ -4,17 +4,22 @@ import {
   loadCategories,
   loadCategoriesFoods,
 } from "../Store/Slices/Categories";
-import { FaHeart, FaShoppingCart } from "react-icons/fa";
+import { FaHeart, FaRedo, FaShoppingCart } from "react-icons/fa";
 import {
   addToFavourites,
   removeFromFavourites,
 } from "../Store/Slices/Favourites";
 import toast from "react-hot-toast";
 import { addToCart } from "../Store/Slices/Cart";
+import { loadRecipes } from "../Store/Slices/RecipesOnHome";
 
 const Categories = () => {
   const dispatch = useDispatch();
   const [currentCategory, setCurrentCategory] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [visibleRecipes, setVisibleRecipes] = useState(9);
+  const itemsPerPage = 5;
+
   const {
     categories,
     currentCategoryFoods,
@@ -24,54 +29,49 @@ const Categories = () => {
   } = useSelector((state) => state.categories);
   const favourites = useSelector((state) => state.favourites.favourites);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [visibleRecipes, setVisibleRecipes] = useState(9);
-  const itemsPerPage = 5;
-
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentCategories = categories.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(categories.length / itemsPerPage);
 
+  const handleReload = () => {
+      dispatch(loadRecipes());
+    };
+
   const handleFvtBtnClick = (recipe) => {
-    if (alreadyInFavourites(recipe)) {
-      handleRemoveFromFavourites(recipe);
-      return;
-    }
-    handleAddToFavourites(recipe);
+    alreadyInFavourites(recipe)
+      ? handleRemoveFromFavourites(recipe)
+      : handleAddToFavourites(recipe);
   };
 
   const handleAddToFavourites = (recipe) => {
-    const isPresent = favourites.some((fav) => fav.idMeal === recipe.idMeal);
-    if (!isPresent) {
+    if (!alreadyInFavourites(recipe)) {
       dispatch(addToFavourites(recipe));
       toast.success("Recipe added to favourites!");
     }
   };
 
   const handleRemoveFromFavourites = (recipe) => {
-    const isPresent = favourites.some((fav) => fav.idMeal === recipe.idMeal);
-    if (isPresent) {
+    if (alreadyInFavourites(recipe)) {
       dispatch(removeFromFavourites(recipe));
       toast.error("Recipe removed from favourites!");
     }
   };
 
-  const alreadyInFavourites = (recipe) => {
-    return favourites.some((fav) => fav.idMeal === recipe.idMeal);
-  };
+  const alreadyInFavourites = (recipe) =>
+    favourites.some((fav) => fav.idMeal === recipe.idMeal);
 
-  const loadMoreRecipes = () => {
-    setVisibleRecipes((prev) => prev + 9);
-  };
+  const loadMoreRecipes = () => setVisibleRecipes((prev) => prev + 9);
 
   const handleAddToCart = (recipe) => {
     dispatch(addToCart(recipe));
     toast.success("Recipe added to cart!");
-  }
+  };
 
   useEffect(() => {
-    dispatch(loadCategories());
+    dispatch(loadCategories()).catch((err) =>
+      console.error("Category Load Error:", err)
+    );
   }, [dispatch]);
 
   useEffect(() => {
@@ -82,7 +82,9 @@ const Categories = () => {
 
   useEffect(() => {
     if (currentCategory) {
-      dispatch(loadCategoriesFoods(currentCategory));
+      dispatch(loadCategoriesFoods(currentCategory)).catch((err) =>
+        console.error("Category Foods Load Error:", err)
+      );
     }
   }, [currentCategory]);
 
@@ -93,6 +95,15 @@ const Categories = () => {
   return categoriesLoading ? (
     <div className="text-center h-[60vh] pb-16 pt-28 text-2xl text-[#ed3f36] animate-pulse">
       Loading...
+    </div>
+  ) : error ? (
+    <div className="text-center h-[60vh] pb-16 pt-28 text-2xl text-red-600">
+      <p>{error || "Something went wrong while loading categories."}</p>
+      <button
+        onClick={handleReload}
+        className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
+        <FaRedo className="inline mr-2" /> Reload
+      </button>
     </div>
   ) : (
     <div className="px-28">
@@ -133,6 +144,10 @@ const Categories = () => {
           <div className="text-center pb-16 pt-10 h-[40vh] text-2xl text-[#ed3f36] animate-pulse">
             Loading meals...
           </div>
+        ) : error ? (
+          <div className="text-center pb-16 pt-10 h-[40vh] text-2xl text-red-600">
+            {error || "Failed to load meals."}
+          </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {currentCategoryFoods.slice(0, visibleRecipes).map((recipe) => (
@@ -159,21 +174,20 @@ const Categories = () => {
                   </div>
 
                   <div className="flex gap-3">
-                    <button onClick={() => handleAddToCart(recipe)}
-                      className={`flex items-center justify-center gap-2 text-white py-2 px-4 cursor-pointer rounded-xl transition-all duration-200 font-semibold flex-1 bg-[#ed3f36] hover:bg-[#d6372f]`}>
+                    <button
+                      onClick={() => handleAddToCart(recipe)}
+                      className="flex items-center justify-center gap-2 text-white py-2 px-4 cursor-pointer rounded-xl transition-all duration-200 font-semibold flex-1 bg-[#ed3f36] hover:bg-[#d6372f]">
                       <FaShoppingCart className="text-lg" />
                       Add
                     </button>
 
                     <button
                       onClick={() => handleFvtBtnClick(recipe)}
-                      className={`flex items-center justify-center gap-2 border-2
-                                              py-2 px-4 cursor-pointer rounded-xl transition-all 
-                                              duration-200 font-semibold flex-1 ${
-                                                alreadyInFavourites(recipe)
-                                                  ? "bg-green-500 hover:bg-green-600 text-white hover:text-white"
-                                                  : "border-2 border-[#ed3f36] text-[#ed3f36] hover:bg-orange-50"
-                                              }`}>
+                      className={`flex items-center justify-center gap-2 border-2 py-2 px-4 cursor-pointer rounded-xl transition-all duration-200 font-semibold flex-1 ${
+                        alreadyInFavourites(recipe)
+                          ? "bg-green-500 hover:bg-green-600 text-white hover:text-white"
+                          : "border-2 border-[#ed3f36] text-[#ed3f36] hover:bg-orange-50"
+                      }`}>
                       <FaHeart className="text-lg" />
                       {alreadyInFavourites(recipe) ? "Loved" : "Love It"}
                     </button>

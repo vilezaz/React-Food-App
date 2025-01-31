@@ -5,7 +5,7 @@ import { LuShoppingCart, LuUserRoundPlus } from "react-icons/lu";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
-  const { favourites } = useSelector((state) => state.favourites);
+  const favourites = useSelector((state) => state.favourites.favourites);
   const cart = useSelector((state) => state.cart.cart);
 
   const textLinks = [
