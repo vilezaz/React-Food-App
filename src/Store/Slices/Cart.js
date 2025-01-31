@@ -21,10 +21,18 @@ const cartReducer = createSlice({
         (recipe) => recipe.idMeal !== action.payload.idMeal
       );
     },
+    decreaseQuantity: (state, action) => {
+      const recipe = state.cart.find(
+        (item) => item.idMeal === action.payload.idMeal
+      );
+      if (recipe && recipe.quantity > 1) {
+        recipe.quantity -= 1;
+      }
+    }
   },
 });
 
-export const { addToCart, removeFromcart } =
+export const { addToCart, removeFromcart, decreaseQuantity } =
   cartReducer.actions;
 
 export default cartReducer.reducer;

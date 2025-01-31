@@ -10,6 +10,7 @@ import LoginPage from "./Pages/LoginPage";
 import Footer from "./Components/Footer";
 import FoodsPage from "./Pages/FoodsPage";
 import { Toaster } from "react-hot-toast";
+import CheckoutPage from "./Pages/CheckoutPage";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/favourites" element={<FvtPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
         </Routes>
       </main>
       <Footer className="flex-shrink-0" />
