@@ -78,10 +78,10 @@ const Recipes = () => {
                 <p className="text-2xl font-bold text-[#ed3f36]">${recipe.price}</p>
               </div>
               <div className="flex gap-3">
-                <button onClick={() => handleAddToCart(recipe)} className="flex items-center justify-center gap-2 text-white py-2 px-4 rounded-xl transition-all duration-200 font-semibold flex-1 bg-[#ed3f36] hover:bg-[#d6372f]">
+                <button onClick={() => handleAddToCart(recipe)} className="flex items-center justify-center gap-2 text-white py-2 px-4 rounded-xl transition-all cursor-pointer duration-200 font-semibold flex-1 bg-[#ed3f36] hover:bg-[#d6372f]">
                   <FaShoppingCart className="text-lg" /> Add
                 </button>
-                <button onClick={() => handleFvtBtnClick(recipe)} className={`flex items-center justify-center gap-2 border-2 py-2 px-4 rounded-xl transition-all duration-200 font-semibold flex-1 ${alreadyInFavourites(recipe) ? "bg-green-500 hover:bg-green-600 text-white" : "border-2 border-[#ed3f36] text-[#ed3f36] hover:bg-orange-50"}`}>
+                <button onClick={() => handleFvtBtnClick(recipe)} className={`flex items-center justify-center gap-2 border-2 py-2 px-4 rounded-xl transition-all cursor-pointer duration-200 font-semibold flex-1 ${alreadyInFavourites(recipe) ? "bg-green-500 hover:bg-green-600 text-white" : "border-2 border-[#ed3f36] text-[#ed3f36] hover:bg-orange-50"}`}>
                   <FaHeart className="text-lg" /> {alreadyInFavourites(recipe) ? "Loved" : "Love It"}
                 </button>
               </div>

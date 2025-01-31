@@ -11,10 +11,12 @@ import Footer from "./Components/Footer";
 import FoodsPage from "./Pages/FoodsPage";
 import { Toaster } from "react-hot-toast";
 import CheckoutPage from "./Pages/CheckoutPage";
+import ScrollToTop from "./Components/ScrollToTop";
 
 const App = () => {
   return (
     <div className="min-h-screen flex flex-col">
+      <ScrollToTop />
       <Toaster />
       <Navbar className="flex-shrink-0" />
       <main className="flex-grow">

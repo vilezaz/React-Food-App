@@ -35,8 +35,8 @@ const Categories = () => {
   const totalPages = Math.ceil(categories.length / itemsPerPage);
 
   const handleReload = () => {
-      dispatch(loadRecipes());
-    };
+    dispatch(loadRecipes());
+  };
 
   const handleFvtBtnClick = (recipe) => {
     alreadyInFavourites(recipe)
