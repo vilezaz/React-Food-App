@@ -5,6 +5,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { removeFromFavourites } from "../Store/Slices/Favourites";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { addToCart } from "../Store/Slices/Cart";
 
 const FavoritesPage = () => {
   const { favourites } = useSelector((state) => state.favourites);
@@ -14,6 +15,11 @@ const FavoritesPage = () => {
   const handleRemoveFromFavourites = (recipe) => {
     dispatch(removeFromFavourites(recipe));
     toast.error("Recipe removed from favourites!");
+  }
+
+  const handleAddToCart = (recipe) => {
+    dispatch(addToCart(recipe));
+    toast.success("Recipe added to cart!");
   }
 
   if (favourites.length === 0) {
@@ -60,7 +66,7 @@ const FavoritesPage = () => {
               </div>
 
               <div className="flex gap-3">
-                <button
+                <button onClick={() => handleAddToCart(recipe)}
                   className="flex items-center justify-center gap-2 text-white py-2 px-4 cursor-pointer rounded-xl transition-all duration-200 font-semibold flex-1 bg-[#ed3f36] hover:bg-[#d6372f]">
                   <FaShoppingCart className="text-lg" />
                   Add

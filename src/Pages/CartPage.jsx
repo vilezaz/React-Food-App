@@ -1,12 +1,9 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React from 'react'
 
 const CartPage = () => {
-  const { cart } = useSelector((state) => state.cart);
+  return (
+    <div>CartPage</div>
+  )
+}
 
-  return <div>
-    
-  </div>;
-};
-
-export default CartPage;
+export default CartPage

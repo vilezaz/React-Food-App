@@ -10,6 +10,7 @@ import {
   removeFromFavourites,
 } from "../Store/Slices/Favourites";
 import toast from "react-hot-toast";
+import { addToCart } from "../Store/Slices/Cart";
 
 const Categories = () => {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const Categories = () => {
     categoriesLoading,
     error,
   } = useSelector((state) => state.categories);
-  const { favourites } = useSelector((state) => state.favourites);
+  const favourites = useSelector((state) => state.favourites.favourites);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [visibleRecipes, setVisibleRecipes] = useState(9);
@@ -63,6 +64,11 @@ const Categories = () => {
   const loadMoreRecipes = () => {
     setVisibleRecipes((prev) => prev + 9);
   };
+
+  const handleAddToCart = (recipe) => {
+    dispatch(addToCart(recipe));
+    toast.success("Recipe added to cart!");
+  }
 
   useEffect(() => {
     dispatch(loadCategories());
@@ -153,7 +159,7 @@ const Categories = () => {
                   </div>
 
                   <div className="flex gap-3">
-                    <button
+                    <button onClick={() => handleAddToCart(recipe)}
                       className={`flex items-center justify-center gap-2 text-white py-2 px-4 cursor-pointer rounded-xl transition-all duration-200 font-semibold flex-1 bg-[#ed3f36] hover:bg-[#d6372f]`}>
                       <FaShoppingCart className="text-lg" />
                       Add

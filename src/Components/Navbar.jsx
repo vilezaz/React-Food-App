@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const { favourites } = useSelector((state) => state.favourites);
-  const { cart } = useSelector((state) => state.cart);
+  const cart = useSelector((state) => state.cart.cart);
 
   const textLinks = [
     { name: "Home", path: "/" },

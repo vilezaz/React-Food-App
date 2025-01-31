@@ -9,8 +9,7 @@ import { addToCart } from "../Store/Slices/Cart";
 const Recipes = () => {
   const dispatch = useDispatch();
   const { loading, recipes, error } = useSelector((state) => state.homeRecipes);
-  const { favourites } = useSelector((state) => state.favourites);
-  const { cart } = useSelector((state) => state.cart);
+  const favourites = useSelector((state) => state.favourites.favourites);
 
   const handleFvtBtnClick = (recipe) => {
     if (alreadyInFavourites(recipe)) {
