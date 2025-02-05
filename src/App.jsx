@@ -35,7 +35,7 @@ const App = () => {
         navigate("/");
       } else {
         console.log("No user is signed in");
-        navigate("/login");
+        navigate("/");
       }
     });
 
