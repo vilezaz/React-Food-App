@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "./Components/Navbar";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import HomePage from "./Pages/HomePage";
 import FvtPage from "./Pages/FvtPage";
 import AboutPage from "./Pages/AboutPage";
@@ -13,8 +13,35 @@ import CheckoutPage from "./Pages/CheckoutPage";
 import ScrollToTop from "./Components/ScrollToTop";
 import Login from "./Pages/Auth/Login";
 import Register from "./Pages/Auth/Register";
+import { useDispatch } from "react-redux";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebaseConfig";
+import { setUser } from "./Store/Slices/Auth";
 
 const App = () => {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("User is signed in:", user);
+        dispatch(setUser({
+          uid: user.uid,
+          email: user.email,
+          username: user.displayName
+        }));
+        navigate("/");
+      } else {
+        console.log("No user is signed in");
+        navigate("/login");
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col">
       <ScrollToTop />
