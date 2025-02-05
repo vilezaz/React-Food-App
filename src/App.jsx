@@ -6,12 +6,13 @@ import FvtPage from "./Pages/FvtPage";
 import AboutPage from "./Pages/AboutPage";
 import ContactPage from "./Pages/ContactPage";
 import CartPage from "./Pages/CartPage";
-import LoginPage from "./Pages/LoginPage";
 import Footer from "./Components/Footer";
 import FoodsPage from "./Pages/FoodsPage";
 import { Toaster } from "react-hot-toast";
 import CheckoutPage from "./Pages/CheckoutPage";
 import ScrollToTop from "./Components/ScrollToTop";
+import Login from "./Pages/Auth/Login";
+import Register from "./Pages/Auth/Register";
 
 const App = () => {
   return (
@@ -27,7 +28,8 @@ const App = () => {
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/favourites" element={<FvtPage />} />
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/checkout" element={<CheckoutPage />} />
         </Routes>
       </main>
