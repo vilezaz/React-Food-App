@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { FiHeart } from "react-icons/fi";
 import { LuShoppingCart, LuUserRoundPlus } from "react-icons/lu";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../Store/Slices/Auth";
 
 const Navbar = () => {
   const favourites = useSelector((state) => state.favourites.favourites);
   const cart = useSelector((state) => state.cart.cart);
+  const { user } = useSelector((state) => state.auth);
+  const [logoutBtn, setLogoutBtn] = useState(false);
+  const dispatch = useDispatch();
 
   const textLinks = [
     { name: "Home", path: "/" },
@@ -16,10 +20,26 @@ const Navbar = () => {
   ];
 
   const iconsLinks = [
-    { name: <FiHeart className="text-xl" />, path: "/favourites", count: favourites.length },
-    { name: <LuShoppingCart className="text-xl" />, path: "/cart", count: cart.length },
-    { name: <LuUserRoundPlus className="text-xl" />, path: "/login" },
+    {
+      name: <FiHeart className="text-xl" />,
+      path: "/favourites",
+      count: favourites.length,
+    },
+    {
+      name: <LuShoppingCart className="text-xl" />,
+      path: "/cart",
+      count: cart.length,
+    },
   ];
+
+  const showLogoutBtn = () => {
+    setLogoutBtn(!logoutBtn);
+  };
+
+  const handleLogoutBtn = () => {
+    dispatch(logoutUser());
+    setLogoutBtn(false);
+  };
 
   return (
     <nav className="py-8 flex bg-white justify-between items-center fixed w-full md:px-28 z-50">
@@ -31,24 +51,26 @@ const Navbar = () => {
               <NavLink
                 to={link.path}
                 className={({ isActive }) =>
-                  isActive ? "text-[#ed3f36] font-semibold" : "hover:text-[#ed3f36] transition-colors"
-                }
-              >
+                  isActive
+                    ? "text-[#ed3f36] font-semibold"
+                    : "hover:text-[#ed3f36] transition-colors"
+                }>
                 {link.name}
               </NavLink>
             </li>
           ))}
         </ul>
       </div>
-      <div className="flex space-x-7">
+      <div className="flex space-x-7 items-center">
         {iconsLinks.map((iconLink, index) => (
           <NavLink
             key={index}
             to={iconLink.path}
             className={({ isActive }) =>
-              isActive ? "text-[#ed3f36] font-semibold" : "hover:text-[#ed3f36] transition-colors"
-            }
-          >
+              isActive
+                ? "text-[#ed3f36] font-semibold"
+                : "hover:text-[#ed3f36] transition-colors"
+            }>
             <div className="flex relative">
               {iconLink.name}
               {iconLink.count > 0 && (
@@ -59,6 +81,35 @@ const Navbar = () => {
             </div>
           </NavLink>
         ))}
+
+        <div className="relative">
+          {user ? (
+            <span
+              className="font-semibold select-none cursor-pointer text-lg text-[#ed3f36]"
+              onClick={showLogoutBtn}>
+              {user.username}
+            </span>
+          ) : (
+            <NavLink
+              to="/login"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-[#ed3f36] font-semibold"
+                  : "hover:text-[#ed3f36] transition-colors"
+              }>
+              <LuUserRoundPlus className="text-xl" />
+            </NavLink>
+          )}
+          {logoutBtn && (
+            <div className="absolute top-8 right-[-8px]">
+              <button
+                onClick={handleLogoutBtn}
+                className="border-2 text-[#ed3f36] border-[#ed3f36] cursor-pointer font-bold py-1 px-4 rounded animate-pulse hover:bg-[#ed3f36] hover:text-white hover:shadow-xl">
+                Logout
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );

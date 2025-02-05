@@ -1,19 +1,25 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { auth } from '../../firebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 
 const initialState = {
     user: null,
+    username: null,
     loading: false,
     error: null
 }
 
-export const registerUser = createAsyncThunk("auth/registerUser", async ({ email, password }, thunkAPI) => {
+export const registerUser = createAsyncThunk("auth/registerUser", async ({ email, password, username }, thunkAPI) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        await updateProfile(user, {displayName: username});
+
         return {
-            uid: userCredential.user.uid,
-            email: userCredential.user.email,
+            uid: user.uid,
+            email: user.email,
+            username: user.displayName
         };
     } catch (error) {
         return thunkAPI.rejectWithValue(error.message);
@@ -23,10 +29,14 @@ export const registerUser = createAsyncThunk("auth/registerUser", async ({ email
 export const loginUser = createAsyncThunk("auth/loginUser", async ({ email, password }, thunkAPI) => {
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+    
         return {
-            uid: userCredential.user.uid,
-            email: userCredential.user.email,
+            uid: user.uid,
+            email: user.email,
+            username: user.displayName,
         };
+
     } catch (error) {
         return thunkAPI.rejectWithValue(error.message);
     }
@@ -47,7 +57,7 @@ const authReducer = createSlice({
     reducers: {
         setUser(state, action) {
             state.user = action.payload;
-        }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -58,6 +68,7 @@ const authReducer = createSlice({
             .addCase(registerUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload;
+                state.username = action.payload.username
             })
             .addCase(registerUser.rejected, (state, action) => {
                 state.loading = false;
@@ -70,6 +81,7 @@ const authReducer = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading = false;
                 state.user = action.payload;
+                state.username = action.payload.username
             })
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false;

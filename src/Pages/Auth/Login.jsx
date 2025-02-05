@@ -90,7 +90,7 @@ const Login = () => {
         <div className="text-center mt-6">
           <p className="text-gray-600">
             Don't have an account?
-            <Link to="/register" className="font-semibold" style={{ color: '#ed3f36' }}>
+            <Link to="/register" className="font-semibold mx-2" style={{ color: '#ed3f36' }}>
               Create one here
             </Link>
           </p>

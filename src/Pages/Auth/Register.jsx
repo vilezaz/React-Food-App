@@ -17,7 +17,7 @@ const Register = () => {
     if(password !== confirmPassword) {
       return alert("Passwords do not match!");
     }
-    dispatch(registerUser({ email, password }))
+    dispatch(registerUser({ email, password, username }))
     .unwrap()
     .then(()=> {
       setEmail("");
@@ -116,7 +116,7 @@ const Register = () => {
         <div className="text-center mt-6">
           <p className="text-gray-600">
             Already have an account?
-            <Link to="/login" className="font-semibold text-[#ed3f36]">
+            <Link to="/login" className="font-semibold mx-2 text-[#ed3f36]">
               Login here
             </Link>
           </p>
