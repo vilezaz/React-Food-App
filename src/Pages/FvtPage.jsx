@@ -27,7 +27,7 @@ const FavoritesPage = () => {
       <div className="flex flex-col items-center justify-center gap-3 h-[80vh] pb-16 pt-32 text-center">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">No favorites found</h2>
         <p className="text-gray-500">
-          Start adding some delicious recipes to your favorites!
+          Start adding some delicious foods to your favorites!
         </p>
         <button
           onClick={() => navigate("/foods")}

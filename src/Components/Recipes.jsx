@@ -43,13 +43,13 @@ const Recipes = () => {
   };
 
   if (loading) {
-    return <div className="text-center h-[50vh] py-16 text-2xl text-[#ed3f36] animate-pulse">Loading delicious recipes...</div>;
+    return <div className="text-center h-[50vh] py-16 text-2xl text-[#ed3f36] animate-pulse">Loading delicious foods...</div>;
   }
 
   if (error) {
     return (
       <div className="text-center h-[50vh] py-16 text-2xl text-red-600">
-        <p>Failed to load recipes. Please try again.</p>
+        <p>Failed to load foods. Please try again.</p>
         <button onClick={handleReload} className="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">
           <FaRedo className="inline mr-2" /> Reload
         </button>

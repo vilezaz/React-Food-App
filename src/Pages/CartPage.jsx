@@ -44,7 +44,7 @@ const CartPage = () => {
     return (
       <div className="text-center flex justify-center items-center flex-col gap-3 h-[80vh] pb-16 pt-32">
         <h2 className="text-2xl font-bold text-gray-800 mb-2">No meals in cart found</h2>
-        <p className="text-gray-500">Start adding some delicious recipes to your cart!</p>
+        <p className="text-gray-500">Start adding some delicious foods to your cart!</p>
         <button onClick={() => navigate("/foods")} className="border-2 flex items-center gap-2 mx-auto m-3 border-[#ed3f36] text-[#ed3f36] hover:bg-orange-50 font-semibold py-2 px-4 rounded transition-colors cursor-pointer">Add to Cart<span><FaArrowLeftLong /></span></button>
       </div>
     );

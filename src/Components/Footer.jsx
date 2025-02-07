@@ -11,7 +11,7 @@ const Footer = ({ className }) => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <h2 className="text-lg font-bold">Food App</h2>
+              <h2 className="text-lg font-bold">CraveOn</h2>
             </div>
             <p className="text-gray-600">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Nesciunt pariatur accusamus

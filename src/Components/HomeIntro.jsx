@@ -15,8 +15,8 @@ const HomeIntro = () => {
           fresh and hot to your doorstep. Order now and discover a world of flavors!
         </p>
         <div className="flex sm:flex-row gap-4 sm:gap-8 items-center justify-center md:justify-start">
-          <button className="bg-[#ed3f36] cursor-pointer flex items-center hover:bg-zinc-700 text-white font-semibold py-2 px-6 rounded transition-colors">
-            Order Now <MdOutlineKeyboardArrowRight className="text-xl ml-2" />
+          <button className="bg-[#ed3f36] cursor-pointer flex items-center hover:bg-zinc-700 text-white font-semibold py-2.5 px-5 rounded transition-colors">
+            Order Now <MdOutlineKeyboardArrowRight className="text-xl ml-1" />
           </button>
           <button className="border-2 cursor-pointer border-[#ed3f36] text-[#ed3f36] hover:bg-orange-50 font-semibold py-2 px-6 rounded transition-colors">
             View Menu

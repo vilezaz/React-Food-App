@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FiHeart, FiMenu, FiX } from "react-icons/fi";
 import { LuShoppingCart } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +12,7 @@ const Navbar = () => {
   const { user } = useSelector((state) => state.auth);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const textLinks = [
     { name: "Home", path: "/" },
@@ -50,9 +51,9 @@ const Navbar = () => {
     <nav className="py-4 md:py-8 bg-white fixed w-full z-50 shadow-md">
       <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          <b className="font-bold text-xl md:text-2xl">Food App</b>
+          <b onClick={() => navigate("/")} className="font-bold cursor-pointer text-xl md:text-2xl">CraveOn</b>
 
-          {/* Desktop Navigation */}
+          {/* Desktop */}
           <div className="hidden md:flex items-center space-x-8">
             <ul className="flex items-center space-x-8 text-lg">
               {textLinks.map((link, index) => (
