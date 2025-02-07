@@ -4,6 +4,7 @@ import { FiHeart } from "react-icons/fi";
 import { LuShoppingCart, LuUserRoundPlus } from "react-icons/lu";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../Store/Slices/Auth";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const favourites = useSelector((state) => state.favourites.favourites);
@@ -37,12 +38,14 @@ const Navbar = () => {
   };
 
   const handleLogoutBtn = () => {
-    dispatch(logoutUser());
+    dispatch(logoutUser()).unwrap().then(() => {
+      toast.success("Logout successful!");
+    })
     setLogoutBtn(false);
   };
 
   return (
-    <nav className="py-8 flex bg-white justify-between items-center fixed w-full md:px-28 z-50">
+    <nav className="py-8 overflow-hidden flex bg-white justify-between items-center fixed w-full md:px-28 z-50">
       <b className="font-bold text-2xl">Food App</b>
       <div className="flex px-2">
         <ul className="flex items-center space-x-10 text-lg">
@@ -82,12 +85,12 @@ const Navbar = () => {
           </NavLink>
         ))}
 
-        <div className="relative">
-          {user ? (
+        <div className="flex items-center flex-col gap-3 relative">
+          {user?.username ? (
             <span
               className="font-semibold select-none cursor-pointer text-lg text-[#ed3f36]"
               onClick={showLogoutBtn}>
-              {user.username}
+              {user.username.split(" ")[0]}
             </span>
           ) : (
             <NavLink
@@ -101,10 +104,10 @@ const Navbar = () => {
             </NavLink>
           )}
           {logoutBtn && (
-            <div className="absolute top-8 right-[-8px]">
+            <div className="absolute top-8">
               <button
                 onClick={handleLogoutBtn}
-                className="border-2 text-[#ed3f36] border-[#ed3f36] cursor-pointer font-bold py-1 px-4 rounded animate-pulse hover:bg-[#ed3f36] hover:text-white hover:shadow-xl">
+                className="border-2 text-[#ed3f36] border-[#ed3f36] cursor-pointer font-bold py-0.5 px-3 rounded animate-pulse hover:bg-[#ed3f36] hover:text-white hover:shadow-xl">
                 Logout
               </button>
             </div>

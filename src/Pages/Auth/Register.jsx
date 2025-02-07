@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { registerUser, setUser } from '../../Store/Slices/Auth';
+import { registerUser, setUser, signInWithGoogle } from '../../Store/Slices/Auth';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -9,7 +10,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const dispatch = useDispatch();
-  const { user, loading, error } = useSelector((state) => state.auth);
+  const { user, loading, googleLoading, error } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -23,8 +24,18 @@ const Register = () => {
       setEmail("");
       setPassword("");
       setConfirmPassword("");
+      toast.success("Registration successful!");
     });
   }
+
+   const handleLoginWithGoogle = async () => {
+      try {
+        await dispatch(signInWithGoogle()).unwrap();
+        toast.success("Login successful!");
+      } catch (error) {
+        toast.error(error || "Failed to sign in with Google");
+      }
+    }
 
   useEffect(() => {
     if(user) {
@@ -53,7 +64,7 @@ const Register = () => {
               type="email" 
               value={email} 
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="example@email.com"
+              placeholder="your email"
               disabled={loading}
               className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#ed3f36]/50 transition duration-300"
               required
@@ -98,8 +109,8 @@ const Register = () => {
           </div>
           
           <button 
-            type="button" 
-            className="w-full flex items-center justify-center p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-300"
+            type="button" onClick={handleLoginWithGoogle}
+            className="w-full cursor-pointer flex items-center justify-center p-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition duration-300"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" className="mr-3">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.75h3.57c2.08-1.92 3.28-4.74 3.28-8.07z"/>
@@ -107,7 +118,7 @@ const Register = () => {
               <path fill="#FBBC05" d="M5.83 14.11c-.25-.67-.38-1.39-.38-2.11s.14-1.44.38-2.11V7.05H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.95l3.65-2.84z"/>
               <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.46 2.09 14.97 1 12 1 7.74 1 4 3.8 2.18 7.05l3.65 2.84c.87-2.6 3.3-4.51 6.17-4.51z"/>
             </svg>
-            Continue with Google
+            {googleLoading ? "Signing in..." : "Sign in with Google"}
           </button>
 
           {error && <p className="text-red-500 text-sm text-center mt-4">{error}</p>}

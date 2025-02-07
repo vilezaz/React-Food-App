@@ -17,6 +17,7 @@ import { useDispatch } from "react-redux";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebaseConfig";
 import { setUser } from "./Store/Slices/Auth";
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
 
@@ -33,9 +34,6 @@ const App = () => {
           username: user.displayName
         }));
         navigate("/");
-      } else {
-        console.log("No user is signed in");
-        navigate("/");
       }
     });
 
@@ -46,6 +44,7 @@ const App = () => {
     <div className="min-h-screen flex flex-col">
       <ScrollToTop />
       <Toaster />
+      <ToastContainer />
       <Navbar className="flex-shrink-0" />
       <main className="flex-grow">
         <Routes>

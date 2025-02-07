@@ -104,15 +104,15 @@ const CartPage = () => {
         <div className="bg-white shadow rounded-lg p-4">
           <h2 className="text-xl font-bold mb-4">Order Summary</h2>
           <div className="flex justify-between text-gray-700 mb-2">
-            <p>Recipes ({getTotalItems()})</p>
+            <p>Foods ({getTotalItems()})</p>
             <p>${getTotalAmount()}</p>
           </div>
           <div className="flex justify-between text-xl font-bold mb-6">
             <p>SubTotal</p>
-            <p>${(parseFloat(getTotalAmount()) + 30).toFixed(2)}</p>
+            <p>${(parseFloat(getTotalAmount())).toFixed(2)}</p>
           </div>
           <Link to={"/checkout"}>
-            <button className="w-full bg-black text-white py-3 rounded hover:bg-gray-800">
+            <button className="w-full bg-[#ed3f36] cursor-pointer text-white py-3 rounded hover:bg-[#df2027]">
               Go to Checkout
             </button>
           </Link>

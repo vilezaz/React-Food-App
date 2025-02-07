@@ -1,11 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { auth } from '../../firebaseConfig';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
+
+const provider = new GoogleAuthProvider();
 
 const initialState = {
     user: null,
     username: null,
     loading: false,
+    googleLoading: false,
     error: null
 }
 
@@ -48,6 +51,15 @@ export const logoutUser = createAsyncThunk("auth/logoutUser", async (_, thunkAPI
         return null;
     } catch (error) {
         return thunkAPI.rejectWithValue(error.message);
+    }
+});
+
+export const signInWithGoogle = createAsyncThunk("auth/googleLogin", async (_, thunkAPI) => {
+    try {
+        const result = await signInWithPopup(auth, provider);
+        toast.success("Google Sign-In Successful!");
+    } catch (error) {
+        toast.error(`Google Sign-In Error: ${error.message}`);
     }
 });
 
@@ -97,6 +109,18 @@ const authReducer = createSlice({
             })
             .addCase(logoutUser.rejected, (state, action) => {
                 state.loading = false;
+                state.error = action.payload;
+            })
+            .addCase(signInWithGoogle.pending, (state) => {
+                state.googleLoading = true;
+                state.error = null;
+            })
+            .addCase(signInWithGoogle.fulfilled, (state, action) => {
+                state.googleLoading = false;
+                state.user = action.payload;
+            })
+            .addCase(signInWithGoogle.rejected, (state, action) => {
+                state.googleLoading = false;
                 state.error = action.payload;
             });
     }
