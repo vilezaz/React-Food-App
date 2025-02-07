@@ -83,7 +83,7 @@ const Recipes = () => {
               <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4 mt-3 sm:mt-4">
                 <button 
                   onClick={() => handleAddToCart(recipe)} 
-                  className="flex items-center cursor-pointer justify-center gap-2 text-white py-2 sm:py-2 md:py-2 px-3 sm:px-4 md:px-5 rounded-lg transition-all duration-200 font-semibold flex-1 bg-[#ed3f36] hover:bg-[#d6372f] text-xs sm:text-sm md:text-base"
+                  className="flex items-center cursor-pointer justify-center gap-2 text-white py-2 sm:py-2 md:py-1.5 px-3 sm:px-4 md:px-5 rounded-lg transition-all duration-200 font-semibold flex-1 bg-[#ed3f36] hover:bg-[#d6372f] text-xs sm:text-sm md:text-base"
                 >
                   <FaShoppingCart className="text-xs sm:text-lg md:text-xl" /> Add
                 </button>
