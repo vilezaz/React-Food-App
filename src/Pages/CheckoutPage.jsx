@@ -31,8 +31,8 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="md:w-[85%] w-full mx-auto px-2 py-28">
-      <h1 className="text-center text-5xl my-2 text-gray-800 font-semibold">Checkout</h1><hr className="my-10" />
+    <div className="md:w-[85%] w-full mx-auto px-2 md:py-32 py-20">
+      <h1 className="text-center md:text-5xl text-3xl md:pt-4 text-gray-800 font-semibold">Checkout</h1><hr className="md:my-10 my-5" />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-5">
         <div className="md:col-span-2 bg-white shadow rounded-lg p-4">
           <h2 className="text-xl font-bold mb-4">Billing & Payment Details</h2>

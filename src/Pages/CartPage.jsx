@@ -51,11 +51,11 @@ const CartPage = () => {
   }
 
   return (
-    <div className="md:w-[85%] w-full mx-auto px-2 py-28">
-      <h1 className="text-center text-5xl my-2 font-semibold">Cart</h1>
-      <hr className="my-10" />
+    <div className="md:w-[85%] w-full mx-auto px-2 py-20 md:py-32">
+      <h1 className="text-center md:text-5xl text-3xl font-semibold">Cart</h1>
+      <hr className="my-5" />
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-5">
-        <div className="md:col-span-2 bg-white shadow rounded-lg p-4">
+        <div className="md:col-span-2 overflow-hidden bg-white shadow rounded-lg p-2">
           <h2 className="text-xl font-bold mb-4">Item List</h2>
           {cart.map((recipe) => (
             <div key={recipe.idMeal} className="border-b pb-4 mb-4">
@@ -90,7 +90,7 @@ const CartPage = () => {
                     </p>
                   </div>
                 </div>
-                <div className="px-10" onClick={() => {
+                <div className="px-3 md:px-10" onClick={() => {
                   dispatch(removeFromcart(recipe));
                   toast.error("Recipe removed from cart!");
                 }}>
