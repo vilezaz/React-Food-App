@@ -1,4 +1,4 @@
-# React Food App
+# React Food App (site screenshots below)
 
 This repository contains a simple, real-world food ordering single-page app built with React. It includes menu listing, food item details, a cart, and a basic checkout flow (frontend only). Sign-in and sign-up are handled with Firebase Authentication and Google Sign-In is available.
 
